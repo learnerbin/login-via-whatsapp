@@ -5,6 +5,11 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+#webdatabase
+
+.wwebjs_auth
+.wwebjs_cache
+
 # Runtime data
 pids
 *.pid

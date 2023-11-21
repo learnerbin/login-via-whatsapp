@@ -1,4 +1,5 @@
 var express = require("express");
+const connectWhatsApp = require("../config/connectWeb");
 var router = express.Router();
 
 /* GET home page. */
@@ -6,10 +7,20 @@ router.get("/", function (req, res) {
   res.render("index");
 });
 
-router.post("/generate", (req, res) => {
+
+// Route to generate QR code and connect to WhatsApp
+router.post('/generate', async (req, res) => {
   const { phone } = req.body;
-  res.send(`Signup successful!  Phone: ${phone}`);
+
+  try {
+   // await connectWhatsApp();
+    res.send(`Signup successful! Phone: ${phone}`);
+  } catch (error) {
+    console.error('Error connecting to WhatsApp:', error);
+    res.status(500).send('Error connecting to WhatsApp');
+  }
 });
+
 
 router.post("/verify", (req, res) => {
   const { otp } = req.body;
