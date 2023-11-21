@@ -1,5 +1,19 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  h1 Please enter your whatsapp number
+    form(action='/generate', method='post')
+      label(for='phone') Phone:
+      input(type='tel', name='phone', required)
+      br
+      input(type='submit', value='Generate OTP')
+
+  h1 OTP Verification
+    form(action='/verify', method='post')
+      label(for='otp') Enter OTP:
+      input(type='text', name='otp', pattern='\d{4}', maxlength='4', required)
+      br
+      input(type='submit', value='Verify')   
+
+  if success
+    h3 Successfully verified
