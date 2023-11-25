@@ -11,15 +11,34 @@ function connectWhatsApp() {
 
     client.on("ready", () => {
       console.log("Client is ready!");
-      resolve();
+      resolve("ready");
     });
 
     client.on("authenticated", (session) => {
       console.log("WHATSAPP WEB => Authenticated");
+      resolve("authenticated");
     });
 
     client.initialize();
   });
 }
 
-module.exports = connectWhatsApp;
+function getStatus() {
+  return new Promise((resolve, reject) => {
+    
+    client.on("authenticated", (session) => {
+      console.log("WHATSAPP WEB => Authenticated");
+      resolve("authenticated");
+    });
+
+    
+    client.on("auth_failure", (err) => {
+      console.error("Authentication failed:", err);
+      reject("unauthorized");
+    });
+
+    client.initialize();
+  });
+}
+
+module.exports = { connectWhatsApp, client, getStatus };
