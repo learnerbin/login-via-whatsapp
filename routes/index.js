@@ -1,8 +1,9 @@
 var express = require("express");
 var router = express.Router();
 
+const connection = require("../config/connection");
 const { generateOtp, sendOtp } = require("../helpers/otp-helper");
-const connect = require("../config/connectWeb");
+const { connectWeb, getStatus } = require("../helpers/web-helper");
 
 let storedOtpData = null;
 
@@ -32,7 +33,8 @@ router.post("/verify", (req, res) => {
 
 router.get("/login", async function (req, res, next) {
   try {
-    await connect.connectWhatsApp();
+    const client = connection.getClient();
+    await connectWeb(client);
     res.send(`Successfully logged into WhatsApp`);
   } catch (error) {
     console.error("Error connecting to WhatsApp:", error);
@@ -42,7 +44,8 @@ router.get("/login", async function (req, res, next) {
 
 router.get("/status", async function (req, res, next) {
   try {
-    const status = connect.getStatus();
+    const client = connection.getClient();
+    const status = await getStatus(client);
     console.log(status);
     res.send(`WhatsApp Status: ${status}`);
   } catch (error) {
@@ -50,4 +53,5 @@ router.get("/status", async function (req, res, next) {
     res.status(500).send("Error getting WhatsApp status");
   }
 });
+
 module.exports = router;
