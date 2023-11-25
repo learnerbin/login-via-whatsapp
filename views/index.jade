@@ -7,6 +7,9 @@ block content
       input(type='tel', name='phone', required)
       br
       input(type='submit', value='Generate OTP')
+  
+  if generated 
+    h3 Successfullly sended
 
   h1 OTP Verification
     form(action='/verify', method='post')
